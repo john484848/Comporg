@@ -1,0 +1,8 @@
+# a = 1234;
+li $s0,1234
+# b = a * 1;
+move $t0,$s0
+move $s1,$t0
+# c = b * -1;
+move $t1,$s1
+sub $s2,$zero,$t1

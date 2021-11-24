@@ -1,0 +1,9 @@
+# q = 12;
+li $s0,12
+# j = q - 2;
+addi $s1,$s0,-2
+# x = q * q / j;
+mult $s0,$s0
+mflo $t0
+div $t0,$s1
+mflo $s2

@@ -1,0 +1,12 @@
+# n = 200;
+li $s0,200
+# b = n / -64;
+bltz $s0,L0
+srl $s1,$s0,6
+sub $s1,$zero,$s1
+j L1
+L0:
+li $t0,-64
+div $s0,$t0
+mflo $s1
+L1:

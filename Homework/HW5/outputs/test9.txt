@@ -1,0 +1,12 @@
+# s = -888;
+li $s0,-888
+# o = s * s;
+mult $s0,$s0
+mflo $s1
+# x = s / -11 * o * 0;
+li $t0,-11
+div $s0,$t0
+mflo $t1
+mult $t1,$s1
+mflo $t2
+li $s2,0

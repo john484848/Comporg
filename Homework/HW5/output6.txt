@@ -1,0 +1,9 @@
+# a = 10;
+li $s0,10
+# b = 73;
+li $s1,73
+# c = a * b / a;
+mult $s0,$s1
+mflo $t0
+div $t0,$s0
+mflo $s2

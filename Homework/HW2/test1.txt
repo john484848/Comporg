@@ -1,0 +1,17 @@
+Number of Novels Authored
+Author name
+Number of novels
+Jane Ausen, 6
+Charles Dickens, 20
+Ernest Hemingway, 9
+Jack Kerouac, 22
+F. Scott Fitzgerald, 8
+Mary Shelley, 7
+Charlotte Bronte, 5
+Mark Twain, 11
+Agatha Christie, 73
+Ian Flemming, 14
+J.K. Rowling, 14
+Stephen King, 54
+Oscar Wilde, 1
+-1

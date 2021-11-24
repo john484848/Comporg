@@ -1,0 +1,12 @@
+# a = -42;
+li $s0,-42
+# b = 1024;
+li $s1,1024
+# c = b / 1;
+move $s2,$s1
+# d = b / -1;
+sub $s3,$zero,$s1
+# e = b / 1 * a;
+move $t0,$s1
+mult $t0,$s0
+mflo $s4

@@ -1,0 +1,11 @@
+# m = 9;
+li $s0,9
+# e = -9;
+li $s1,-9
+# w = m * e * m % e;
+mult $s0,$s1
+mflo $t0
+mult $t0,$s0
+mflo $t1
+div $t1,$s1
+mfhi $s2

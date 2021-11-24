@@ -1,0 +1,11 @@
+# n = -100;
+li $s0,-100
+# b = n * -45;
+sll $t0,$s0,5
+move $t1,$t0
+sll $t0,$s0,3
+add $t1,$t1,$t0
+sll $t0,$s0,2
+add $t1,$t1,$t0
+add $t1,$t1,$s0
+sub $s1,$zero,$t1

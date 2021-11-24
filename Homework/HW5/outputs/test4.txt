@@ -1,0 +1,9 @@
+# x = -5;
+li $s0,-5
+# y = x - x;
+sub $s1,$s0,$s0
+# a = x - y + 13 + x - a;
+sub $t0,$s0,$s1
+addi $t1,$t0,13
+add $t2,$t1,$s0
+sub $s2,$t2,$s2

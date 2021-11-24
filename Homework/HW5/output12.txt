@@ -1,0 +1,22 @@
+# n = 100;
+li $s0,100
+# b = n / 32;
+bltz $s0,L0
+srl $s1,$s0,5
+j L1
+L0:
+li $t0,32
+div $s0,$t0
+mflo $s1
+L1:
+# x = b * b / 512;
+mult $s1,$s1
+mflo $t1
+bltz $t1,L2
+srl $s2,$t1,9
+j L3
+L2:
+li $t2,512
+div $t1,$t2
+mflo $s2
+L3:
