@@ -15,6 +15,10 @@ typedef struct
     int readreg[2];
     int outputreg;
     int stage;
+    int reapet;
+    int fill;
+    int repstage;
+    int nopcycle;
 } node;
 // creats a struct for nodes of a vector
 typedef struct
@@ -30,7 +34,7 @@ void construct_vector(vector *vec)
     vec->vectorl = malloc(vec->size * sizeof(node));
     vec->count = 0;
 }
-void push_back(vector *vec, char *instuction2, int read12,int read22,int outputreg2,int stage)
+void push_back(vector *vec, char *instuction2, int read12,int read22,int outputreg2,int stage,int fill,int repstage)
 {
     if (vec->count >= vec->size)
     {
@@ -42,33 +46,26 @@ void push_back(vector *vec, char *instuction2, int read12,int read22,int outputr
     vec->vectorl[vec->count].readreg[0] = read12;
     vec->vectorl[vec->count].readreg[1] = read22;
     vec->vectorl[vec->count].stage = stage;
+    vec->vectorl[vec->count].fill = fill;
+    vec->vectorl[vec->count].repstage = repstage;
     vec->count++;
 }
 void dealloc_vec(vector *vec) { free(vec->vectorl); }
-typedef struct{
-    vector v;
-    int front;
-    int rear;
-    int itemCount;
-}queue;
-bool isEmpty(queue *q){return q->itemCount==0;}
-int size(queue *q){return q->itemCount;}
-void construct_queue(queue *q){
-    construct_vector(&q->v);
-    q->front=0;
-    q->rear=-1;
-    q->itemCount=0;
+void insert(vector *q,node* n){
+    push_back(q,n->instuction,n->readreg[0],n->readreg[1],n->outputreg,n->stage,n->fill,n->repstage);
 }
-void insert(queue *q,node* n){
-    push_back(&q->v,n->instuction,n->readreg[0],n->readreg[1],n->outputreg,n->stage);
-    q->rear++;
-    q->itemCount++;
-}
-node * removeData(queue *q){
-    q->v.count=q->front;
-    q->itemCount--;
-    if(q->front==q->itemCount+1){
-        q->front=0;
+int size(vector *v){return v->count;}
+void insert2(vector *q,node* n,int index){
+    q->count++;
+     if (q->count >= q->size)
+    {
+        q->size *= 2;
+        q->vectorl = realloc(q->vectorl, q->size * sizeof(node));
     }
-    return &q->v.vectorl[q->front++];
+
+    for(int i=q->count;i>=index;i--){
+        memcpy(&(q->vectorl[i]),&(q->vectorl[i-1]),sizeof(node));
+    }
+    
+    memcpy(&(q->vectorl[index]),n,sizeof(node));
 }
