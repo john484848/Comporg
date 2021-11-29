@@ -49,12 +49,15 @@ void push_back(vector *vec, char *instuction2, int read12,int read22,int outputr
     vec->vectorl[vec->count].fill = fill;
     vec->vectorl[vec->count].repstage = repstage;
     vec->count++;
+    //pushes the value to the back
 }
 void dealloc_vec(vector *vec) { free(vec->vectorl); }
 void insert(vector *q,node* n){
     push_back(q,n->instuction,n->readreg[0],n->readreg[1],n->outputreg,n->stage,n->fill,n->repstage);
+    //just a frame work to use push back
 }
 int size(vector *v){return v->count;}
+//returns the size
 void insert2(vector *q,node* n,int index){
     q->count++;
      if (q->count >= q->size)
@@ -62,10 +65,12 @@ void insert2(vector *q,node* n,int index){
         q->size *= 2;
         q->vectorl = realloc(q->vectorl, q->size * sizeof(node));
     }
-
+    //checks for resize
     for(int i=q->count;i>=index;i--){
         memcpy(&(q->vectorl[i]),&(q->vectorl[i-1]),sizeof(node));
     }
+    //shifts the values
     
     memcpy(&(q->vectorl[index]),n,sizeof(node));
+    //adds the next one at the position
 }
