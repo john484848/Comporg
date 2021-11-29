@@ -23,13 +23,13 @@ void parse_file(FILE* f,vector * q){
     line_size = getline(&line_buf, &line_buf_size, f);
     while(line_size>=0){
         line_buf[line_size-1]='\0';
-        line_buf[line_size-2]='\0';
         char * cpy=malloc(sizeof(char)*line_size+1);
         strcpy(cpy,line_buf);
         char * cpy2=malloc(sizeof(char)*line_size+1);
         strcpy(cpy2,line_buf);
         char * up=strchr(cpy,' ')+1;
         remove_spaces(up);
+        //creats necissary copies 
         char *token;
         int i=0;
         int reg[3]={-1,-1,-1};
@@ -43,6 +43,7 @@ void parse_file(FILE* f,vector * q){
 
         }
         i++;
+        //hashes the first register
         while (token != NULL){
             token = strtok(NULL, sep);
             if(token!=NULL && token[0]=='$'){
@@ -56,6 +57,7 @@ void parse_file(FILE* f,vector * q){
             }
             i++;
         }
+        //tokenizes and hashes all the other regiserts
         node n;
         n.instuction=cpy2;
         n.readreg[0]=reg[1];
@@ -65,17 +67,22 @@ void parse_file(FILE* f,vector * q){
         n.fill=0;
         n.repstage=0;
         insert(q,&n); 
+        //creats and add the node to the vector 
         line_size = getline(&line_buf, &line_buf_size, f);
+        //gets the line 
         free(cpy);
+        //frees extra memory
     }
 
 }
 void print_line(node * v,int cycle,int foundif){
     if(foundif!=1){
         printf("%s",v->instuction);
+        //prints the instruction
             for(int i=0;i<cycle;i++){
                 printf("\t.");
             }
+            //prints all the dots befroe the stage 
             for(int i=0;i<=v->stage;i++){
                 if(i==v->repstage){
                     for(int e=0;e<v->fill;e++){
@@ -97,6 +104,7 @@ void print_line(node * v,int cycle,int foundif){
                     break;
                 }
             }
+            //prints the repeated stages from an nop
 
                 }
                 switch (i){
@@ -118,6 +126,7 @@ void print_line(node * v,int cycle,int foundif){
                 }
                 
             }
+            //prints all the usual stages 
             int q;
             if(v->stage>=5){
                 q=4;
@@ -128,6 +137,7 @@ void print_line(node * v,int cycle,int foundif){
             for(int i=9-q-cycle-(v->fill);i>1-foundif;i--){
                 printf("\t.");
             }
+            //prints all the dots at the end of the line. 
             printf("\n");
     }
     else{
@@ -137,6 +147,7 @@ void print_line(node * v,int cycle,int foundif){
         }
         printf("\n");
     }
+    //prints the remaining instructions if an nop has been executed 
 
 }
 void printnop(node * n,int cycle){
@@ -144,6 +155,7 @@ void printnop(node * n,int cycle){
     for(int i=0;i<cycle;i++){
                 printf("\t.");
     }
+    //prints all the begining dots 
     for(int i=0;i<=n->outputreg;i++){
         if(i==n->repstage){
             for(int e=0;e<n->fill;e++){
@@ -166,6 +178,7 @@ void printnop(node * n,int cycle){
                 }
             }
         }
+        //prints all the repeated stages 
         switch (i){
             case 0:
                 printf("\tIF");
@@ -183,6 +196,7 @@ void printnop(node * n,int cycle){
                 printf("\tWB");
                 break;
         }
+        //prints all the regular stages 
     }
     int q=0;
             if(n->stage>=3){
@@ -194,11 +208,12 @@ void printnop(node * n,int cycle){
     for(int i=0;i<q;i++){
         printf("\t*");
     }
+    //prints the stars 
     for(int i=9-q-cycle-n->outputreg-(n->fill);i>1;i--){
                 printf("\t.");
             }
             printf("\n");
-
+    //prints the dots at the end 
 }
 int main(int argc, char * argv[]){
     FILE * f=fopen(argv[1],"r");
@@ -207,15 +222,19 @@ int main(int argc, char * argv[]){
     parse_file(f,&q);
     int finish=0;
     printf("START OF SIMULATION\n\n");
+    //prints the header and parses the file 
     while (finish<size(&q)){
         int foundif=0;
         int cycle=0;
         int bf=0;
+        //the finish found an if and bouble found values being initalized
         printf("CPU Cycles ===>\t1\t2\t3\t4\t5\t6\t7\t8\t9\n");
+        //printing the header
         for(int i=0; i<size(&q);i++){
             for(int g=0;g<i;g++){
                     if(((q.vectorl[i].readreg[0]!=-1 && q.vectorl[i].readreg[0]==q.vectorl[g].outputreg) || (q.vectorl[i].readreg[1]!=-1 && q.vectorl[i].readreg[1]==q.vectorl[g].outputreg)) && (q.vectorl[i].stage==1 && bf==0 && q.vectorl[g].stage<=5) ){
-                        node d;
+                    //checks for an nop
+                    node d;
                     int point=i+1;
                     d.instuction=malloc(sizeof(char)*4);
                     d.instuction[0]='n';
@@ -228,9 +247,11 @@ int main(int argc, char * argv[]){
                     d.readreg[1]=-1;
                     d.fill=q.vectorl[i].fill;
                     d.repstage=1;
+                    //creats an nop
                     for(int t=i;t<size(&q);t++){
                         q.vectorl[t].repstage=q.vectorl[t].stage;
                     }
+                    //sets all the repeated stages 
                     int vr=i;
                     while (vr>0){
                         if(q.vectorl[vr].readreg[0]!=q.vectorl[i].readreg[0]){
@@ -240,16 +261,19 @@ int main(int argc, char * argv[]){
                         vr--;
                         
                     }
+                    //determines the point to insert it 
                     insert2(&q,&d,point);
+                    //inserts it 
                     bf=1;
                     i++;
-                    
+                    //incriments i and sets buble found to halt execution 
                     break;
                     }
                     else if(q.vectorl[i].readreg[1]<0 && strcmp(q.vectorl[i].instuction,"nop")==0){
                         for(int e=i+1;e<size(&q);e++){
                                 q.vectorl[e].fill++;
                         }
+                        //increases the fill value to help move execusion forward 
                         break;
                     }
             }
@@ -265,7 +289,7 @@ int main(int argc, char * argv[]){
                     finish++;
                     q.vectorl[i].readreg[1]++;;
                 }
-
+                //updates nop instructions 
             }
             else{
                 print_line(&q.vectorl[i],cycle,foundif);
@@ -281,6 +305,7 @@ int main(int argc, char * argv[]){
                 }
                 cycle++;
                 }
+                //updates reegular instructions
         }
         printf("\n");
     }
