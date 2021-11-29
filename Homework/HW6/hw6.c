@@ -58,9 +58,7 @@ void parse_file(FILE* f,vector * q){
         }
         node n;
         n.instuction=cpy2;
-        printf("%s\n",n.instuction);
         n.readreg[0]=reg[1];
-        printf("%d\n",n.readreg[0]);
         n.readreg[1]=reg[2];
         n.outputreg=reg[0];
         n.stage=0;
@@ -216,7 +214,7 @@ int main(int argc, char * argv[]){
          printf("CPU Cycles ===>\t1\t2\t3\t4\t5\t6\t7\t8\t9\n");
         for(int i=0; i<size(&q);i++){
             for(int g=0;g<i;g++){
-                    if(((q.vectorl[i].readreg[0]!=-1 && q.vectorl[i].readreg[0]==q.vectorl[g].outputreg)) && (q.vectorl[i].stage==1 && bf==0 && q.vectorl[g].stage<=5) ){
+                    if(((q.vectorl[i].readreg[0]!=-1 && q.vectorl[i].readreg[0]==q.vectorl[g].outputreg) || (q.vectorl[i].readreg[1]!=-1 && q.vectorl[i].readreg[1]==q.vectorl[g].outputreg)) && (q.vectorl[i].stage==1 && bf==0 && q.vectorl[g].stage<=5) ){
                         node d;
                     int point=i+1;
                     d.instuction=malloc(sizeof(char)*4);
