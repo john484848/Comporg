@@ -29,8 +29,8 @@ CSCI-2500 Fall 2021
 unsigned block_count(unsigned idx_start, unsigned idx_end)
 {
   // TODO: Calculate the block count 
-  unsigned count = 0;
-  count=(unsigned int)pow(2,(idx_end-idx_start)+1);
+  unsigned int tag_size = 32 - idx_end;
+  unsigned int count = (1 << idx_start) * 8 + tag_size;
   
 
   return count;
