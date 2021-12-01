@@ -29,8 +29,8 @@ CSCI-2500 Fall 2021
 unsigned block_count(unsigned idx_start, unsigned idx_end)
 {
   // TODO: Calculate the block count 
-  unsigned int tag_size = 32 - idx_end;
-  unsigned int count = (1 << idx_start) * 8 + tag_size;
+  unsigned count = 0;
+  count=(unsigned int)pow(2,(idx_end-idx_start)+1);
   
 
   return count;
@@ -109,11 +109,8 @@ unsigned get_cache_block_size(unsigned idx_start, unsigned idx_end,
   unsigned bob)
 {
   // TODO: calculate cache block size
-  unsigned size = 0;
-  size=(idx_end-idx_start)+1;
-  size+=bob+1;
-  size=32-size;
-  size+=33;
+ unsigned tag_size = 32 - idx_end;
+ unsigned size = (1 << idx_start) * 8 + tag_size;
   return size;
 }
 
